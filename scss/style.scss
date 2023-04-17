@@ -135,6 +135,9 @@ input,select,button {
 
         code {
             font-family: monospace;
+            > * {
+                font-family: inherit;
+            }
             strong {
                 color: var(--color-accent);
             }

@@ -108,6 +108,8 @@ input, select, button {
       aspect-ratio: 1; }
     #app #right code {
       font-family: monospace; }
+      #app #right code > * {
+        font-family: inherit; }
       #app #right code strong {
         color: var(--color-accent); }
 
