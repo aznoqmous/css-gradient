@@ -182,7 +182,7 @@ export class Value extends EventTarget {
     }
 
     createFields(form){
-        this.input = App.createElement('input', {value: this.value}, form)
+        this.input = App.createElement('input', {value: this.value, step: 0.1}, form)
     }
 
     createLabel(form){
@@ -191,13 +191,14 @@ export class Value extends EventTarget {
             let mouseX = null
             let startValue = null
             const bindMouseMove = (e)=>{
-                this.value = startValue + (e.pageX - mouseX)
+                this.value = startValue + (e.pageX - mouseX) * (this.input.step || 1)
+                this.value = this.value.toFixed(1)
                 this.input.value = this.value
                 this.dispatchEvent(new CustomEvent('update'))
             }
             this.label.addEventListener('mousedown', (e)=>{
                 mouseX = e.pageX
-                startValue = this.value
+                startValue = parseFloat(this.value)
                 window.addEventListener('mousemove', bindMouseMove)
                 window.addEventListener('mouseup', ()=> window.removeEventListener("mousemove", bindMouseMove))
                 window.addEventListener('mouseleave', ()=> window.removeEventListener("mousemove", bindMouseMove))
@@ -215,7 +216,16 @@ export class Value extends EventTarget {
     }
 }
 
-export class ColorValue extends Value {}
+export class ColorValue extends Value {
+    createFields(form){
+        this.preview = App.createElement('figure', {className: "color-preview"}, form)
+        super.createFields(form)
+        this.preview.style.background = this.input.value
+        this.addEventListener('update', ()=>{
+            this.preview.style.background = this.input.value
+        })
+    }
+}
 
 export class ColorStop extends Value {
     constructor(label, color="#fff", stopValue=null){
@@ -261,7 +271,8 @@ export class DegreeValue extends Value {
             type: "number",
             value: this.value,
             min: -180,
-            max: 180
+            max: 180,
+            step: 0.1
         }, form)
     }
     toCss(){
@@ -298,6 +309,7 @@ export class UnitValue extends Value {
         this.input = App.createElement('input', {
             type: "number",
             value: this.value,
+            step: 0.1
         }, form)
         this.inputUnit = App.createElement("select", {}, form)
         this.units.map(unit => this.inputUnit.appendChild(new Option(unit, unit, unit == this.unit, unit == this.unit)))
