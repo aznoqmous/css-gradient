@@ -10,8 +10,12 @@
 :root {
   --background: #1a1a1a;
   --background-0: #222222;
+  --background-1: #333;
   --color: #eee;
+  --color-0: #aaa;
+  --color-accent: #35d4c7;
   --border-radius: 0.5rem;
+  --border-radius-0: 0.3rem;
   --input-border-radius: 0.2rem; }
 
 body {
@@ -20,7 +24,8 @@ body {
   overflow: hidden;
   background-color: var(--background);
   color: var(--color);
-  padding: 1rem; }
+  padding: 1rem;
+  font-family: "DM Sans", monospace; }
 
 input, select, button {
   background: var(--background);
@@ -30,7 +35,8 @@ input, select, button {
   padding: 0.2rem;
   cursor: pointer;
   width: 100%;
-  outline: none; }
+  outline: none;
+  font-family: "DM Sans", monospace; }
   input:focus, select:focus, button:focus {
     border-color: white; }
 
@@ -42,28 +48,52 @@ input, select, button {
     #app #left .gradients {
       display: flex;
       flex-direction: column;
-      gap: 2rem; }
+      gap: 0.5rem;
+      overflow-y: auto;
+      max-height: calc(100vh - 10rem); }
       #app #left .gradients .gradient {
         display: flex;
         flex-direction: column;
-        gap: 0.5rem; }
-        #app #left .gradients .gradient figure.preview {
-          height: 5rem;
-          width: 5rem; }
-        #app #left .gradients .gradient .color-stops {
+        gap: 0.5rem;
+        padding: 0.5rem;
+        border-radius: var(--border-radius-0);
+        background: var(--background-1); }
+        #app #left .gradients .gradient .head {
+          display: flex;
+          cursor: pointer;
+          gap: 0.5rem;
+          align-items: center; }
+        #app #left .gradients .gradient figure {
+          height: 3rem;
+          width: 3rem;
+          aspect-ratio: 1;
+          box-shadow: 0 0px 2px black; }
+        #app #left .gradients .gradient.hidden .gradient-container {
+          display: none; }
+        #app #left .gradients .gradient .gradient-container {
           display: flex;
           flex-direction: column;
           gap: 0.2rem; }
-          #app #left .gradients .gradient .color-stops .color-stop {
+          #app #left .gradients .gradient .gradient-container .color-stops {
             display: flex;
+            flex-direction: column;
             gap: 0.2rem; }
-            #app #left .gradients .gradient .color-stops .color-stop > div {
+            #app #left .gradients .gradient .gradient-container .color-stops .color-stop {
+              display: flex;
+              gap: 0.2rem; }
+              #app #left .gradients .gradient .gradient-container .color-stops .color-stop > div {
+                display: flex; }
+          #app #left .gradients .gradient .gradient-container .position-size {
+            display: flex;
+            gap: 1rem; }
+            #app #left .gradients .gradient .gradient-container .position-size .position > div, #app #left .gradients .gradient .gradient-container .position-size .size > div {
               display: flex; }
-        #app #left .gradients .gradient .position-size {
-          display: flex;
-          gap: 1rem; }
-          #app #left .gradients .gradient .position-size .position > div, #app #left .gradients .gradient .position-size .size > div {
-            display: flex; }
+          #app #left .gradients .gradient .gradient-container .form {
+            display: flex;
+            align-items: center;
+            gap: 0.2rem; }
+            #app #left .gradients .gradient .gradient-container .form span {
+              color: var(--color-0); }
   #app #right {
     width: 67%;
     display: flex;
@@ -73,6 +103,14 @@ input, select, button {
     #app #right .preview {
       width: 100%;
       aspect-ratio: 1; }
+    #app #right code {
+      font-family: monospace; }
+      #app #right code strong {
+        color: var(--color-accent); }
+
+.slide-control {
+  user-select: none;
+  cursor: ew-resize; }
 
 .box {
   background-color: var(--background-0);
