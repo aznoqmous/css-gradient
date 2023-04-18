@@ -23,7 +23,6 @@ body {
     overflow: hidden;
     background-color: var(--background);
     color: var(--color);
-    padding: 1rem;
     font-family: "DM Sans", monospace;
 }
 
@@ -41,11 +40,23 @@ input,select,button {
         border-color: white;
     }
 }
-
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    h1 {
+        font-size: 1.5rem;
+    }
+    .actions {
+        display: flex;
+        align-items: center;
+    }
+}
 #app {
     display: flex;
     gap: 1rem;
-
+    padding: 0 1rem;
     #left {
         width: 33%;
         .gradients {

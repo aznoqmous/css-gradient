@@ -11,8 +11,13 @@ export default class App {
         this.container = document.getElementById('app')
         this.gradientTypes = Gradients
         this.gradientTypeSelect = this.container.querySelector('[name="gradientType"')
-        this.gradientTypes.map(type => {
+
+        /*this.gradientTypes.map(type => {
             this.gradientTypeSelect.appendChild(new Option(type.name, type.name))
+        })*/
+
+        Shapes.map(shape => {
+            this.gradientTypeSelect.appendChild(new Option(shape.name, shape.name))
         })
 
         this.addGradientButton = this.container.querySelector("#addGradient")
@@ -27,7 +32,9 @@ export default class App {
     
     bind(){
         this.addGradientButton.addEventListener('click', ()=>{
-            this.newGradient(this.gradientTypes.filter(t => t.name == this.gradientTypeSelect.value)[0])
+            //this.newGradient(this.gradientTypes.filter(t => t.name == this.gradientTypeSelect.value)[0])
+            let shape = Shapes.filter(t => t.name == this.gradientTypeSelect.value)[0]
+            this.fromCss(shape.css)
         })
     }
 
@@ -54,7 +61,8 @@ export default class App {
             let gradient = Gradient.fromCss(gradientCss)
             gradient.fromCssSize(backgroundSize);
             gradient.fromCssPosition(backgroundPosition);
-            this.addGradient(gradient)
+            let element = this.addGradient(gradient)
+            element.classList.toggle('hidden')
         })
     }
 
@@ -131,6 +139,8 @@ export default class App {
         this.gradients.push(gradient)
         this.updatePreview(gradient, preview, pattern)
         this.update()
+
+        return element
     }
 
     addColorStop(colorStop, colorStopsContainer, gradient, preview, pattern){
@@ -194,3 +204,63 @@ export default class App {
 
     
 }
+
+export const Shapes = [
+    {
+        name: "Linear Gradient",
+        css: `
+            background-image: linear-gradient(0deg, transparent 0%, white 100%);
+            background-size: 100% 100%;
+            background-position: 0% 0%;
+        `
+    },
+    {
+        name: "Radial Gradient",
+        css: `
+            background-image: radial-gradient(circle at 50% 50%, white 0%, transparent 100%);
+            background-size: 100% 100%;
+            background-position: 50% 50%;
+        `
+    },
+    {
+        name: "Conic Gradient",
+        css: `
+            background-image: conic-gradient(from 0deg at 50% 50%, white 0deg, transparent 360deg);
+            background-size: 100% 100%;
+            background-position: 50% 50%;
+        `
+    },
+    {
+        name: "Grid",
+        css: `
+            background-image: linear-gradient(0deg, transparent 90%, #fff 90%),
+            linear-gradient(-90deg, transparent 90%, #fff 90%);
+            background-size: 10px 10px,10px 10px;
+            background-position: 0% 0%,0% 0%;
+        `
+    },
+    {
+        name: "Square",
+        css: `
+            background-image: conic-gradient(from -90deg at 50% 50%, white 0deg, white 90deg, transparent 90deg);
+            background-size: 10px 10px;
+            background-position: 0% 0%;
+        `
+    },
+    {
+        name: "Triangle",
+        css: `
+            background-image: conic-gradient(from 150deg at 50% 25%, white 0deg, white 60deg, transparent 60deg);
+            background-size: 10px 10px;
+            background-position: 0% 0%;
+        `
+    },
+    {
+        name: "Circle",
+        css: `
+            background-image: radial-gradient(circle at 50% 50%, white 0%, white 50%, transparent 50%);
+            background-size: 10px 10px;
+            background-position: 50% 50%;
+        `
+    }
+]
